@@ -35,6 +35,7 @@ RUN /usr/bin/wget \
 
 RUN ln -s /usr/local/hadoop-2.4.0 /usr/local/hadoop
 
+# copy hadoop conf files 
 COPY hadoop_conf/core-site.xml $HADOOP_CONF_DIR/
 COPY hadoop_conf/mapred-site.xml $HADOOP_CONF_DIR/
 COPY hadoop_conf/hdfs-site.xml $HADOOP_CONF_DIR/
