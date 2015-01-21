@@ -33,6 +33,7 @@ RUN /usr/bin/wget \
   https://www.dropbox.com/s/4u3gkf5efpdx4op/hadoop-2.4.0.tar.gz\
   -P /tmp && tar -xzf /tmp/hadoop-2.4.0.tar.gz -C /usr/local/ && rm -rf /tmp/*
 
+# rename hadoop
 RUN mv /usr/local/hadoop-2.4.0 /usr/local/hadoop
 
 # copy hadoop conf files 
