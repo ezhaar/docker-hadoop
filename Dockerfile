@@ -16,8 +16,12 @@ RUN apt-get update && apt-get install -y \
 
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
-ENV PATH $PATH:$JAVA_HOME/bin:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
+# Download and extract hadoop-2.4.0 compiled by ezhaar on x86_64
+RUN /usr/bin/wget \
+  https://www.dropbox.com/s/4u3gkf5efpdx4op/hadoop-2.4.0.tar.gz\
+  -P /tmp && tar -xzf /tmp/hadoop-2.4.0.tar.gz -C /usr/local/ && rm -rf /tmp/*
+
+RUN mv /usr/local/hadoop-2.4.0 /usr/local/hadoop
 
 # export hadoop variables
 ENV HADOOP_PREFIX /usr/local/hadoop
@@ -27,14 +31,9 @@ ENV HADOOP_MAPRED_HOME /usr/local/hadoop
 ENV HADOOP_YARN_HOME /usr/local/hadoop
 ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
 ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
+ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
+ENV PATH $PATH:$JAVA_HOME/bin:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
 
-# Download and extract hadoop-2.4.0 compiled by ezhaar on x86_64
-RUN /usr/bin/wget \
-  https://www.dropbox.com/s/4u3gkf5efpdx4op/hadoop-2.4.0.tar.gz\
-  -P /tmp && tar -xzf /tmp/hadoop-2.4.0.tar.gz -C /usr/local/ && rm -rf /tmp/*
-
-# rename hadoop
-RUN mv /usr/local/hadoop-2.4.0 /usr/local/hadoop
 
 # copy hadoop conf files 
 COPY hadoop_conf/core-site.xml $HADOOP_CONF_DIR/
